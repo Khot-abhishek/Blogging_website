@@ -6,6 +6,12 @@ from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 
 
+def home(request):
+    return render(request, 'users/home.html')
+
+
+
+
 class RegistrationView(View):
     def get(self, request):
         context = {
@@ -17,7 +23,7 @@ class RegistrationView(View):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.validated_data.get('username')
+            username = form.cleaned_data.get('username')
             messages.success(request, f"Account for '{username}' Successfully created! ")
             return redirect('login')
         else:
